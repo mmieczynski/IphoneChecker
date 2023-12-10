@@ -14,7 +14,7 @@ public class IphoneChecker(HttpClient client, IConfiguration configuration) : Ba
     {
         Log.Information("Starting iphoner service!");
         const string accountSid = "AC15105eeccd558f6a2820d62a128589e2";
-        var authToken = configuration["TwilioToken"];
+        var authToken = Environment.GetEnvironmentVariable("TwilioToken");
         TwilioClient.Init(accountSid, authToken ?? throw new InvalidOperationException());
         
         await Task.Delay(500, stoppingToken);
