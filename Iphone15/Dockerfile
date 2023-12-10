@@ -9,8 +9,8 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["./Iphone15.csproj", "Iphone15/"]
 RUN dotnet restore "Iphone15/Iphone15.csproj"
-COPY . .
 WORKDIR "/src/Iphone15"
+COPY . .
 RUN dotnet build "Iphone15.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
