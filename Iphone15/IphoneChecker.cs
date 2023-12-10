@@ -5,17 +5,17 @@ using Twilio.Types;
 
 namespace Iphone15;
 
-public class IphoneChecker(HttpClient client) : BackgroundService
+public class IphoneChecker(HttpClient client, IConfiguration configuration) : BackgroundService
 {
     private const int Delay = 5 * 60 * 1000; // 5 minutes
     private const int IterationsAfter24Hours = 60 / 5 * 24; // 60 mins / 5 mins * 24 hours
-    
+
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         Log.Information("Starting iphoner service!");
         const string accountSid = "AC15105eeccd558f6a2820d62a128589e2";
-        const string authToken = "95bcecdb24cb8fa85e3667b9a65a1e85";
-        TwilioClient.Init(accountSid, authToken);
+        var authToken = configuration["TwilioToken"];
+        TwilioClient.Init(accountSid, authToken ?? throw new InvalidOperationException());
         
         await Task.Delay(500, stoppingToken);
         await SendSms("Starting the service");
